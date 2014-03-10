@@ -1,0 +1,7 @@
+# Acrescente uma linha a este ficheiro com o número do respetivo grupo e os utilizadores no Github dos elementos desse grupo.
+# Siga o exemplo apresentado para o Grupo 'G00'
+G00 lfalcao28 fmcarvalho 
+
+
+
+
