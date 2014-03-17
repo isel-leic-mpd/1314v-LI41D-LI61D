@@ -9,4 +9,12 @@ public class Utils {
 	  public static String getInUppercase(String what) {
 		return "saying in uppercase " + what.toUpperCase();
 	  }
+	  
+	  public static int chooseRandom(int max) {
+		  return (int)(Math.random()*max) +1;
+	  }
+
+	public static String getDefaultName() {
+		return "default";
+	}
 }

@@ -1,5 +1,5 @@
 package isel.mpd.typesystem;
 
-public class Moto extends Veichle {
+public class Moto extends Vehicle {
 	public void startEngine() { }
 }
