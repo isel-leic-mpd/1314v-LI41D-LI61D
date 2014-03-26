@@ -4,5 +4,8 @@
 #*.jar
 *.war
 *.ear
+.settings
+.classpath
+.project
 
 target/
