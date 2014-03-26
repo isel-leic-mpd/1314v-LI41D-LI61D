@@ -4,6 +4,7 @@ import isel.mpd.typesystem.Binder;
 import isel.mpd.typesystem.Car;
 import isel.mpd.typesystem.Vehicle;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -57,5 +58,44 @@ public class TestBinder extends TestCase {
 		assertEquals(2000, m.get("year"));
 
 	}
+	
+	public void testBindToForCarValues() throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
 
+		// Act
+		Car c = Binder.bindTo(Car.class, fieldsVals);
+		
+		
+		// Assert
+		assertEquals(v.getName(), c.getName());
+		assertEquals(v.getBrand(), c.getBrand());
+		assertEquals(v.getYear(), c.getYear());
+		
+
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	public void testTypeCompatibilities() throws ClassNotFoundException {
+		Car c = new Car("name", "brand", 2000);
+		
+		Class<?> c1 = Class.forName("isel.mpd.typesystem.Vehicle");
+		
+		assertSame(c1, c.getClass().getSuperclass());
+		assertSame(c1, Vehicle.class);
+		assertTrue(Vehicle.class.isInstance(c));
+		assertTrue(c instanceof Vehicle);
+		assertTrue(Vehicle.class.isAssignableFrom(c.getClass()));
+		assertTrue(Vehicle.class.isAssignableFrom(Car.class));
+		
+		assertSame(int.class, Integer.TYPE);
+		assertNotSame(int.class, Integer.class);
+	}
 }

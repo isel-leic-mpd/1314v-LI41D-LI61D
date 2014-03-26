@@ -1,10 +1,13 @@
 package isel.mpd.typesystem;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Binder {
@@ -22,7 +25,7 @@ public class Binder {
 			throw new IllegalArgumentException("o");
 		}
 		
-		Field[] fields = getAllFields(o);
+		Field[] fields = getAllFields(o.getClass());
 		Map<String, Object> m = new HashMap<String, Object>();
 		
 		for (Field field : fields) {
@@ -35,10 +38,33 @@ public class Binder {
 		
 		return m;
 	}
+	
+	
+	public static <T> T bindTo(Class<T> klass, Map<String, Object> fieldsVals) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		List<Integer> ai = new ArrayList<Integer>();
+		ai.add(5);
+		 
+		
+		
+		Constructor<T> c = klass.getConstructor();
+		//T newT = klass.newInstance();
+		T newT = c.newInstance();
+		Field[] fields = getAllFields(klass);
+		for (Field field : fields) {
+			Object o = fieldsVals.get(field.getName());
+			if(o != null) {
+				field.setAccessible(true);
+				field.set(newT, o);
+			}
+		}
+		
+		return newT;
+	}
 
-	private static Field[] getAllFields(Object o) {
+	private static Field[] getAllFields(Class<?> c) {
 		ArrayList<Field> allFields = new ArrayList<>();
-		Class<?> c = o.getClass();
+		
 		while(c != Object.class) {
 			Field[] fields = c.getDeclaredFields();
 			allFields.addAll(Arrays.asList(fields));
