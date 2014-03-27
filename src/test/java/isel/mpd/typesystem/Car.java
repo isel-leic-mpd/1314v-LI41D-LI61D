@@ -1,5 +1,8 @@
 package isel.mpd.typesystem;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 
 
 public class Car extends Vehicle {
@@ -22,7 +25,17 @@ public class Car extends Vehicle {
 	}
 
 	public void setYear(int year) {
+		if(year < 0)
+			throw new IllegalArgumentException("year");
 		this.year = year;
+	}
+	
+	public int getAge() {
+		return Calendar.getInstance().get(Calendar.YEAR) - year;
+	}
+	
+	public void setAge(int age) {
+		year = Calendar.getInstance().get(Calendar.YEAR) - age;
 	}
 }
 

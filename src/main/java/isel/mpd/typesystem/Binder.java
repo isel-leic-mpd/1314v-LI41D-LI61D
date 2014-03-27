@@ -3,6 +3,7 @@ package isel.mpd.typesystem;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,12 +42,6 @@ public class Binder {
 	
 	
 	public static <T> T bindTo(Class<T> klass, Map<String, Object> fieldsVals) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		
-		List<Integer> ai = new ArrayList<Integer>();
-		ai.add(5);
-		 
-		
-		
 		Constructor<T> c = klass.getConstructor();
 		//T newT = klass.newInstance();
 		T newT = c.newInstance();
@@ -62,6 +57,46 @@ public class Binder {
 		return newT;
 	}
 
+	public static <T> T bindToFieldsAndProps(Class<T> klass, Map<String, Object> vals) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+		T newT = klass.newInstance();
+		
+		for( Map.Entry<String, Object> entry : vals.entrySet()) {
+			Method m = getSetterMethod(klass, entry.getKey(), entry.getValue().getClass());
+			if(m != null) {
+				m.invoke(newT, entry.getValue());				
+				continue;
+			} 
+			
+			Field f = getField(klass, entry.getKey(), entry.getValue().getClass());
+			if(f != null) {
+				f.set(newT, entry.getValue());
+			}
+		}
+		return newT;
+	}
+	
+	private static Method getSetterMethod(Class<?> instanceClass, String key, Class<?> parameterClass) {
+		for(Method m : instanceClass.getMethods()) {
+			Class<?>[] parameterTypes = m.getParameterTypes();
+			if(parameterTypes.length == 1  
+				&& m.getName().equalsIgnoreCase("set" + key) 
+				&& parameterTypes[0].isAssignableFrom(parameterClass)) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	private static Field getField(Class<?> instanceClass, String key, Class<?> parameterClass) {
+		for(Field f : getAllFields(instanceClass)) {
+			if(f.getName().equals(key) && f.getType().isAssignableFrom(parameterClass)) {
+				f.setAccessible(true);
+				return f;
+			}
+		}
+		return null;
+	}
+	
 	private static Field[] getAllFields(Class<?> c) {
 		ArrayList<Field> allFields = new ArrayList<>();
 		

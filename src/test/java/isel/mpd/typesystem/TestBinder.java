@@ -59,6 +59,31 @@ public class TestBinder extends TestCase {
 
 	}
 	
+	
+	
+	public void testFieldsBinder()
+			throws IllegalAccessException {
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+
+		// Act
+		Car c = new FieldsBinder().bindTo(Car.class, fieldsVals);
+		
+		Car c = new PropertiesBinder().bindTo(Car.class, fieldsVals);
+		
+		Car c = new PropertiesAndFieldsBinder().bindTo(Car.class, fieldsVals);
+
+		// Act
+		Map<String, Object> m = Binder.getFieldsValues(v);
+
+		// Assert
+		assertEquals(3, m.size());
+		assertEquals("name", m.get("name"));
+		assertEquals("brand", m.get("brand"));
+		assertEquals(2000, m.get("year"));
+
+	}
+	
 	public void testBindToForCarValues() throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
 		// Arrange
 		Car v = new Car("name", "brand", 2000);
