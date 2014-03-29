@@ -26,7 +26,6 @@ public class TestBinder extends TestCase {
 		
 	}
 	
-	
 	public void testGetFieldValuesForDefaultVeichle()
 			throws IllegalAccessException {
 		// Arrange
@@ -61,29 +60,6 @@ public class TestBinder extends TestCase {
 	
 	
 	
-	public void testFieldsBinder()
-			throws IllegalAccessException {
-		Car v = new Car("name", "brand", 2000);
-		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
-
-		// Act
-		Car c = new FieldsBinder().bindTo(Car.class, fieldsVals);
-		
-		Car c = new PropertiesBinder().bindTo(Car.class, fieldsVals);
-		
-		Car c = new PropertiesAndFieldsBinder().bindTo(Car.class, fieldsVals);
-
-		// Act
-		Map<String, Object> m = Binder.getFieldsValues(v);
-
-		// Assert
-		assertEquals(3, m.size());
-		assertEquals("name", m.get("name"));
-		assertEquals("brand", m.get("brand"));
-		assertEquals(2000, m.get("year"));
-
-	}
-	
 	public void testBindToForCarValues() throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
 		// Arrange
 		Car v = new Car("name", "brand", 2000);
@@ -97,30 +73,119 @@ public class TestBinder extends TestCase {
 		assertEquals(v.getName(), c.getName());
 		assertEquals(v.getBrand(), c.getBrand());
 		assertEquals(v.getYear(), c.getYear());
+		assertEquals(v.getAge(), c.getAge());
+	}
+
+	
+	
+	public void testBindToFieldsAndPropsForCarValues() throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		fieldsVals.remove("year");
+		fieldsVals.put("age", 10);
+
+		// Act
+		Car c = Binder.bindToFieldsAndProps(Car.class, fieldsVals);
+		
+		// Assert
+		assertEquals(v.getName(), c.getName());
+		assertEquals(v.getBrand(), c.getBrand());
+		assertEquals(10, c.getAge());
+		assertEquals(v.getYear()+v.getAge()-10, c.getYear());
+	}
+
+	public void testBindToFieldsAndPropsPriorityForProperties() throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		fieldsVals.put("year", -1);
+
+		// Act
+		try {
+			Binder.bindToFieldsAndProps(Car.class, fieldsVals);
+		} catch(InvocationTargetException e) {
+			if(e.getCause() instanceof IllegalArgumentException)
+				return;
+		}
+		
+		// Assert
+		fail("InvocationTargetException should have been thrown");
+	}
+
+	
+	
+	public void testFieldBinder() throws IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		fieldsVals.put("year", -1);
 		
 
+		// Act
+		Car c = new FieldsBinder().bindTo(Car.class, fieldsVals);
 		
 		
-		
-		
-		
-		
+		// Assert
+		assertEquals(v.getName(), c.getName());
+		assertEquals(v.getBrand(), c.getBrand());
+		assertEquals(-1, c.getYear());
+		assertEquals(v.getYear() + v.getAge() + 1, c.getAge());
+
+
 	}
 	
 	
-	public void testTypeCompatibilities() throws ClassNotFoundException {
-		Car c = new Car("name", "brand", 2000);
+	public void testPropertiesBinder() throws IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		fieldsVals.put("age", 10);
+
+		// Act
+		Car c = new PropertiesBinder().bindTo(Car.class, fieldsVals);
 		
-		Class<?> c1 = Class.forName("isel.mpd.typesystem.Vehicle");
+		// Assert
+		assertEquals(v.getName(), c.getName());
+		assertEquals(v.getBrand(), c.getBrand());
+		assertEquals(10, c.getAge());
+		assertEquals(v.getYear()+v.getAge()-10, c.getYear());
+	}
+	
+	
+	public void testPropertiesAndFieldsBinder() throws Exception {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		fieldsVals.remove("year");
+		fieldsVals.put("age", 10);
+
+		// Act
+		Car c = new PropertiesAndFieldsBinder().bindTo(Car.class, fieldsVals);
 		
-		assertSame(c1, c.getClass().getSuperclass());
-		assertSame(c1, Vehicle.class);
-		assertTrue(Vehicle.class.isInstance(c));
-		assertTrue(c instanceof Vehicle);
-		assertTrue(Vehicle.class.isAssignableFrom(c.getClass()));
-		assertTrue(Vehicle.class.isAssignableFrom(Car.class));
+		// Assert
+		assertEquals(v.getName(), c.getName());
+		assertEquals(v.getBrand(), c.getBrand());
+		assertEquals(10, c.getAge());
+		assertEquals(v.getYear()+v.getAge()-10, c.getYear());
+	}
+
+	
+	public void testPropertiesAndFieldsBinderPriorityForProperties() throws IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		fieldsVals.put("year", -1);
+
+		// Act
+		try {
+			new PropertiesAndFieldsBinder().bindTo(Car.class, fieldsVals);
+		} catch(Exception e) {
+			if(e.getCause() instanceof IllegalArgumentException)
+				return;
+		}
 		
-		assertSame(int.class, Integer.TYPE);
-		assertNotSame(int.class, Integer.class);
+		// Assert
+		fail("InvocationTargetException should have been thrown");
 	}
 }

@@ -17,11 +17,18 @@ public class ReflectionAPItests extends TestCase {
 		assertTrue(Vehicle.class.isAssignableFrom(c.getClass()));
 		assertTrue(Vehicle.class.isAssignableFrom(Car.class));
 		
+		assertTrue(int.class.isAssignableFrom(int.class));
+		assertFalse(int.class.isAssignableFrom(Integer.class));
+		assertFalse(Integer.class.isAssignableFrom(int.class));
+		assertNotNull(Integer.class.cast(10));
+		
+		
 		assertSame(int.class, Integer.TYPE);
 		assertNotSame(int.class, Integer.class);
+		assertTrue(Integer.class.isInstance(19));
 	}
 	
-	
+
 	public void testIfMemberInstancesAreCopies() throws ClassNotFoundException {
 		// Arrange
 		Field []fields = Car.class.getDeclaredFields();

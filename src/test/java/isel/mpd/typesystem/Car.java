@@ -1,6 +1,5 @@
 package isel.mpd.typesystem;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 
