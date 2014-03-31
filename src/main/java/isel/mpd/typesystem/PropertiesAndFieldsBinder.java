@@ -1,11 +1,15 @@
 package isel.mpd.typesystem;
 
-import java.util.Map;
+public class PropertiesAndFieldsBinder extends AbstractBinder{
 
-public class PropertiesAndFieldsBinder {
-
-	public <T> T bindTo(Class<T> klass, Map<String, Object> fieldsVals) throws Exception {
-		return null;
-	}
+    PropertiesBinder bindProp = new PropertiesBinder();
+    FieldsBinder bindField = new FieldsBinder();
+    
+    @Override
+    protected <T> boolean bindMember(T newT, String key, Object value) {
+        if(!bindProp.bindMember(newT, key, value))
+            return bindField.bindMember(newT, key, value);
+        return true;
+    }
 
 }

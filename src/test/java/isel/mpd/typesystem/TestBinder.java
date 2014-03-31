@@ -138,7 +138,7 @@ public class TestBinder extends TestCase {
 	
 	public void testPropertiesBinder() throws IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
 		// Arrange
-		Car v = new Car("name", "brand", 2000);
+		Car v = new Car("name", "brand", 2004);
 		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
 		fieldsVals.put("age", 10);
 
