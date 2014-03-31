@@ -1,5 +1,6 @@
 package isel.mpd.typesystem;
 
+import static isel.mpd.typesystem.Primitives.wrap;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ public class FieldsBinder implements BinderStrategy{
             Class<?> parameterClass) {
         for (Field f : getAllFields(instanceClass)) {
             if (f.getName().equals(key)
-                    && isAssignable(f.getType(), parameterClass)) {
+                    && wrap(f.getType()).isAssignableFrom(parameterClass)) {
                 f.setAccessible(true);
                 return f;
             }
@@ -37,7 +38,7 @@ public class FieldsBinder implements BinderStrategy{
             Field field = getField(newT.getClass(), key, fieldKlass);
 
             if (field != null) {
-                if (isAssignable(field.getType(), fieldKlass)) {
+                if (wrap(field.getType()).isAssignableFrom(fieldKlass)) {
                     try {
                         field.setAccessible(true);
                         field.set(newT, value);
@@ -51,9 +52,4 @@ public class FieldsBinder implements BinderStrategy{
 
     }
     
-    protected static boolean isAssignable(Class<?> dstType, Class<?> srcType) {
-        if(srcType == null) return true;
-	return Primitives.wrap(dstType).isAssignableFrom(srcType);
-    }
-
 }

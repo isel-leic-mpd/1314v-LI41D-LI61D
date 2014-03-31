@@ -1,5 +1,6 @@
 package isel.mpd.typesystem;
 
+import static isel.mpd.typesystem.Primitives.wrap;
 import isel.mpd.typesystem.util.SneakyUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,7 +13,7 @@ public class PropertiesBinder implements BinderStrategy{
             Class<?>[] parameterTypes = m.getParameterTypes();
             if (parameterTypes.length == 1
                     && m.getName().equalsIgnoreCase("set" + key)
-                    && isAssignable(parameterTypes[0], parameterClass)) {
+                    && wrap(parameterTypes[0]).isAssignableFrom(parameterClass)) {
                 return m;
             }
         }
@@ -24,7 +25,7 @@ public class PropertiesBinder implements BinderStrategy{
         Class<?> valType = val.getClass();
         Method m = getSetterMethod(newT.getClass(), key, valType);
 
-        if (m != null && isAssignable(m.getParameterTypes()[0], valType)) {
+        if (m != null && wrap(m.getParameterTypes()[0]).isAssignableFrom(valType)) {
             try {
                 m.invoke(newT, val);
                 return true;
@@ -36,8 +37,4 @@ public class PropertiesBinder implements BinderStrategy{
         return false;
     }
     
-    protected static boolean isAssignable(Class<?> dstType, Class<?> srcType) {
-	return Primitives.wrap(dstType).isAssignableFrom(srcType);
-    }
-
 }
