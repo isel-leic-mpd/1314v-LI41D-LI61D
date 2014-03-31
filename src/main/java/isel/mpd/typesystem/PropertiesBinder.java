@@ -1,9 +1,10 @@
 package isel.mpd.typesystem;
 
+import isel.mpd.typesystem.util.SneakyUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class PropertiesBinder extends AbstractBinder {
+public class PropertiesBinder implements BinderStrategy{
 
     private static Method getSetterMethod(Class<?> instanceClass, String key,
             Class<?> parameterClass) {
@@ -19,7 +20,7 @@ public class PropertiesBinder extends AbstractBinder {
     }
 
     @Override
-    protected <T> boolean bindMember(T newT, String key, Object val) {
+    public  <T> boolean bindMember(T newT, String key, Object val) {
         Class<?> valType = val.getClass();
         Method m = getSetterMethod(newT.getClass(), key, valType);
 
@@ -28,10 +29,15 @@ public class PropertiesBinder extends AbstractBinder {
                 m.invoke(newT, val);
                 return true;
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                throw new RuntimeException(ex);
+                // throw new RuntimeException(ex);
+                SneakyUtils.throwAsRTException(ex);
             }
         }
         return false;
+    }
+    
+    protected static boolean isAssignable(Class<?> dstType, Class<?> srcType) {
+	return Primitives.wrap(dstType).isAssignableFrom(srcType);
     }
 
 }

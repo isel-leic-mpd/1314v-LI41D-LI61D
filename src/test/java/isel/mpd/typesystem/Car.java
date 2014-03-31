@@ -25,7 +25,7 @@ public class Car extends Vehicle {
 
 	public void setYear(int year) {
 		if(year < 0)
-			throw new IllegalArgumentException("year");
+			throw new IllegalArgumentException("year cannot be a negative value");
 		this.year = year;
 	}
 	

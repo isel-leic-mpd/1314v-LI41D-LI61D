@@ -66,7 +66,7 @@ public class TestBinder extends TestCase {
 		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
 
 		// Act
-		Car c = Binder.bindTo(Car.class, fieldsVals);
+		Car c = new Binder(new FieldsBinder()).bindTo(Car.class, fieldsVals);
 		
 		
 		// Assert
@@ -86,7 +86,7 @@ public class TestBinder extends TestCase {
 		fieldsVals.put("age", 10);
 
 		// Act
-		Car c = Binder.bindToFieldsAndProps(Car.class, fieldsVals);
+		Car c = new Binder(new PropertiesBinder(), new FieldsBinder()).bindTo(Car.class, fieldsVals);
 		
 		// Assert
 		assertEquals(v.getName(), c.getName());
@@ -103,7 +103,7 @@ public class TestBinder extends TestCase {
 
 		// Act
 		try {
-			Binder.bindToFieldsAndProps(Car.class, fieldsVals);
+			new Binder(new  PropertiesBinder(), new FieldsBinder()).bindTo(Car.class, fieldsVals);
 		} catch(InvocationTargetException e) {
 			if(e.getCause() instanceof IllegalArgumentException)
 				return;
@@ -123,7 +123,7 @@ public class TestBinder extends TestCase {
 		
 
 		// Act
-		Car c = new FieldsBinder().bindTo(Car.class, fieldsVals);
+		Car c = new Binder(new FieldsBinder()).bindTo(Car.class, fieldsVals);
 		
 		
 		// Assert
@@ -131,10 +131,25 @@ public class TestBinder extends TestCase {
 		assertEquals(v.getBrand(), c.getBrand());
 		assertEquals(-1, c.getYear());
 		assertEquals(v.getYear() + v.getAge() + 1, c.getAge());
-
-
 	}
 	
+        public void testNonNullFieldBinder() throws IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car(null, "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		fieldsVals.put("year", -1);
+		
+
+		// Act
+		Car c = new Binder(new NonNullFieldsBinder()).bindTo(Car.class, fieldsVals);
+		
+		
+		// Assert
+		assertEquals("default", c.getName());
+		assertEquals(v.getBrand(), c.getBrand());
+		assertEquals(-1, c.getYear());
+		assertEquals(v.getYear() + v.getAge() + 1, c.getAge());
+	}
 	
 	public void testPropertiesBinder() throws IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
 		// Arrange
@@ -143,7 +158,7 @@ public class TestBinder extends TestCase {
 		fieldsVals.put("age", 10);
 
 		// Act
-		Car c = new PropertiesBinder().bindTo(Car.class, fieldsVals);
+		Car c = new Binder(new PropertiesBinder()).bindTo(Car.class, fieldsVals);
 		
 		// Assert
 		assertEquals(v.getName(), c.getName());
@@ -161,7 +176,7 @@ public class TestBinder extends TestCase {
 		fieldsVals.put("age", 10);
 
 		// Act
-		Car c = new PropertiesAndFieldsBinder().bindTo(Car.class, fieldsVals);
+		Car c = new Binder(new  PropertiesBinder(), new FieldsBinder()).bindTo(Car.class, fieldsVals);
 		
 		// Assert
 		assertEquals(v.getName(), c.getName());
@@ -179,7 +194,7 @@ public class TestBinder extends TestCase {
 
 		// Act
 		try {
-			new PropertiesAndFieldsBinder().bindTo(Car.class, fieldsVals);
+			new Binder (new  PropertiesBinder(), new FieldsBinder()).bindTo(Car.class, fieldsVals);
 		} catch(Exception e) {
 			if(e.getCause() instanceof IllegalArgumentException)
 				return;

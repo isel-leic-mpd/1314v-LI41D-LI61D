@@ -8,9 +8,14 @@ import java.util.Map;
 
 public class Binder {
     
-    static FieldsBinder bindField = new FieldsBinder();
-    static PropertiesAndFieldsBinder bindFieldOrProp = new PropertiesAndFieldsBinder();
+    private final BinderStrategy [] binderStrats;
 
+    public Binder(BinderStrategy...binderStrat) {
+        this.binderStrats = binderStrat;
+    }
+
+    
+    
     
 	/**
 	 * Returns a map with all field names and corresponding values in a
@@ -44,14 +49,17 @@ public class Binder {
 		return m;
 	}
 
-	public static <T> T bindTo(Class<T> klass, Map<String, Object> fieldsVals) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	public <T> T bindTo(Class<T> klass, Map<String, Object> vals) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
         {
-		return bindField.bindTo(klass, fieldsVals);
+                T newT = klass.newInstance();
+
+		for (Map.Entry<String, Object> entry : vals.entrySet()) {
+                    for (BinderStrategy bs : binderStrats) {
+                        if(bs.bindMember(newT, entry.getKey(), entry.getValue()))
+                            break;
+                    }
+		}
+		return newT;
 	}
 
-	
-	public static <T> T bindToFieldsAndProps(Class<T> klass, Map<String, Object> vals) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
-        {
-		return bindFieldOrProp.bindTo(klass, vals);
-	}
 }
