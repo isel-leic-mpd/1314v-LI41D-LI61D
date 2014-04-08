@@ -7,16 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Binder {
-    
-    private final BinderStrategy [] binderStrats;
 
-    public Binder(BinderStrategy...binderStrat) {
-        this.binderStrats = binderStrat;
-    }
+	private final BinderStrategy[] binderStrats;
 
-    
-    
-    
+	public Binder(BinderStrategy... binderStrat) {
+		this.binderStrats = binderStrat;
+	}
+
 	/**
 	 * Returns a map with all field names and corresponding values in a
 	 * {@code Map}
@@ -27,7 +24,8 @@ public class Binder {
 	 * @return the map with the field name an value pairs
 	 * @throws IllegalAccessException
 	 * 
-	 * @exception IllegalArgumentException  if {@link o} is null.
+	 * @exception IllegalArgumentException
+	 *                if {@link o} is null.
 	 */
 	public static Map<String, Object> getFieldsValues(Object o)
 			throws IllegalAccessException {
@@ -49,15 +47,16 @@ public class Binder {
 		return m;
 	}
 
-	public <T> T bindTo(Class<T> klass, Map<String, Object> vals) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
-        {
-                T newT = klass.newInstance();
+	public <T> T bindTo(Class<T> klass, Map<String, Object> vals)
+			throws InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+		T newT = klass.newInstance();
 
 		for (Map.Entry<String, Object> entry : vals.entrySet()) {
-                    for (BinderStrategy bs : binderStrats) {
-                        if(bs.bindMember(newT, entry.getKey(), entry.getValue()))
-                            break;
-                    }
+			for (BinderStrategy bs : binderStrats) {
+				if (bs.bindMember(newT, entry.getKey(), entry.getValue()))
+					break;
+			}
 		}
 		return newT;
 	}

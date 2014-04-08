@@ -8,8 +8,9 @@ package isel.mpd.typesystem;
 
 /**
  *
- * @author Miguel Gamboa at CCISEL
+ * @author lfalcao
  */
+
 interface BinderStrategy {
     <T> boolean bindMember(T newT, String key, Object value);
 }

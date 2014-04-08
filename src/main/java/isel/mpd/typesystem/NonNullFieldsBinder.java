@@ -1,13 +1,16 @@
 package isel.mpd.typesystem;
 
-public class NonNullFieldsBinder extends FieldsBinder{
+@ClassPreamble(
+ author = "Luis Falcão",
+ date = "7-4-2014"
+)
+public class NonNullFieldsBinder extends NonNullBinder {
 
-    @Override
-    public <T> boolean bindMember(T newT, String key, Object value) {
-            if(value == null)
-                return false;
-            return super.bindMember(newT, key, value);
-
-    }
-
+	private static FieldsBinder Binder = new FieldsBinder();
+	
+	public NonNullFieldsBinder() {
+		super(Binder);
+		
+		
+	}
 }
