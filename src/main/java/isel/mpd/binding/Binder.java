@@ -1,4 +1,4 @@
-package isel.mpd.typesystem;
+package isel.mpd.binding;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class Binder {
 
-	private final BinderStrategy[] binderStrats;
+	private final IBinderStrategy[] binderStrats;
 
-	public Binder(BinderStrategy... binderStrat) {
+	public Binder(IBinderStrategy... binderStrat) {
 		this.binderStrats = binderStrat;
 	}
 
@@ -53,7 +53,7 @@ public class Binder {
 		T newT = klass.newInstance();
 
 		for (Map.Entry<String, Object> entry : vals.entrySet()) {
-			for (BinderStrategy bs : binderStrats) {
+			for (IBinderStrategy bs : binderStrats) {
 				if (bs.bindMember(newT, entry.getKey(), entry.getValue()))
 					break;
 			}

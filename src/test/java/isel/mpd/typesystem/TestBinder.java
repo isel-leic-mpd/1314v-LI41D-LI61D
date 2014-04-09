@@ -1,8 +1,10 @@
 package isel.mpd.typesystem;
 
-import isel.mpd.typesystem.Binder;
-import isel.mpd.typesystem.Car;
-import isel.mpd.typesystem.Vehicle;
+import isel.mpd.binding.Binder;
+import isel.mpd.binding.FieldsBinder;
+import isel.mpd.binding.NonNullFieldsBinder;
+import isel.mpd.binding.PropertiesBinder;
+import isel.mpd.binding.ToUppercaseBinder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -202,5 +204,21 @@ public class TestBinder extends TestCase {
 		
 		// Assert
 		fail("InvocationTargetException should have been thrown");
+	}
+	
+	
+	public void testToUppercaseBinderStrategy() throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("name", "brand", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+
+		// Act
+		Car c = new Binder(new ToUppercaseBinder(new FieldsBinder()))
+					.bindTo(Car.class, fieldsVals);
+
+		
+		// Assert
+		assertEquals(v.getName().toUpperCase(), c.getName());
+		assertEquals(v.getBrand().toUpperCase(), c.getBrand());
 	}
 }

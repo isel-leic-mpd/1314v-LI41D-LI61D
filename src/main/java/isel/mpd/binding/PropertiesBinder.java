@@ -1,11 +1,13 @@
-package isel.mpd.typesystem;
+package isel.mpd.binding;
 
-import static isel.mpd.typesystem.Primitives.wrap;
+import isel.mpd.typesystem.Primitives;
 import isel.mpd.typesystem.util.SneakyUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class PropertiesBinder implements BinderStrategy{
+
+public class PropertiesBinder implements IBinderStrategy{
 
     private static Method getSetterMethod(Class<?> instanceClass, String key,
             Class<?> parameterClass) {
@@ -13,7 +15,7 @@ public class PropertiesBinder implements BinderStrategy{
             Class<?>[] parameterTypes = m.getParameterTypes();
             if (parameterTypes.length == 1
                     && m.getName().equalsIgnoreCase("set" + key)
-                    && wrap(parameterTypes[0]).isAssignableFrom(parameterClass)) {
+                    && Primitives.wrap(parameterTypes[0]).isAssignableFrom(parameterClass)) {
                 return m;
             }
         }
@@ -25,7 +27,7 @@ public class PropertiesBinder implements BinderStrategy{
         Class<?> valType = val.getClass();
         Method m = getSetterMethod(newT.getClass(), key, valType);
 
-        if (m != null && wrap(m.getParameterTypes()[0]).isAssignableFrom(valType)) {
+        if (m != null && Primitives.wrap(m.getParameterTypes()[0]).isAssignableFrom(valType)) {
             try {
                 m.invoke(newT, val);
                 return true;

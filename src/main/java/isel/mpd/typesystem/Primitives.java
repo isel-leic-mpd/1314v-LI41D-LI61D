@@ -49,7 +49,7 @@ public final class Primitives {
 	 * 
 	 * @return Returns an immutable set of all nine primitive-wrapper types (including Void).
 	 */
-	static Set<Class<?>> allWrapperTypes() {
+	public static Set<Class<?>> allWrapperTypes() {
 		return new HashSet<Class<?>>(PRIMITIVES_TO_WRAPPERS.values());
 	}
 	
@@ -66,7 +66,7 @@ public final class Primitives {
 	 * @param type
 	 * @return Returns the corresponding primitive type of type if it is a wrapper type; otherwise returns type itself.
 	 */
-	static Class<?>	unwrap(Class<?> type) {
+	public static Class<?>	unwrap(Class<?> type) {
 		Set<Entry<Class<?>, Class<?>>> entrySet = PRIMITIVES_TO_WRAPPERS.entrySet();
 		for (Entry<Class<?>, Class<?>> entry : entrySet) {
 			if(entry.getValue() == type)
@@ -75,7 +75,7 @@ public final class Primitives {
 		return type;
 	}
 	
-	static Class<?>	wrap(Class<?> type) {
+	public static Class<?>	wrap(Class<?> type) {
 		return type.isPrimitive() ? PRIMITIVES_TO_WRAPPERS.get(type) : type;
 	}
 }

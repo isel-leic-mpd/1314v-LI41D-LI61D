@@ -1,4 +1,6 @@
-package isel.mpd.typesystem;
+package isel.mpd.binding;
+
+import isel.mpd.typesystem.ClassPreamble;
 
 @ClassPreamble(
  author = "Luis Falcão",

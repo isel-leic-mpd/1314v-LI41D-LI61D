@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
-package isel.mpd.typesystem;
+package isel.mpd.binding;
 
 /**
  *
  * @author lfalcao
  */
 
-interface BinderStrategy {
+public interface IBinderStrategy {
     <T> boolean bindMember(T newT, String key, Object value);
 }

@@ -1,11 +1,12 @@
-package isel.mpd.typesystem;
+package isel.mpd.binding;
 
 import static isel.mpd.typesystem.Primitives.wrap;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FieldsBinder implements BinderStrategy{
+public class FieldsBinder implements IBinderStrategy{
 
     private static Field getField(Class<?> instanceClass, String key,
             Class<?> parameterClass) {

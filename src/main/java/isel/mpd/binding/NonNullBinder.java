@@ -1,12 +1,13 @@
-package isel.mpd.typesystem;
+package isel.mpd.binding;
 
 
-public class NonNullBinder implements BinderStrategy {
+
+public class NonNullBinder implements IBinderStrategy {
 	
-	private final BinderStrategy binderStrategy;
+	private final IBinderStrategy binderStrategy;
 
 	
-	public NonNullBinder(BinderStrategy binderStrategy) {
+	public NonNullBinder(IBinderStrategy binderStrategy) {
 		this.binderStrategy = binderStrategy;
 	}
 	

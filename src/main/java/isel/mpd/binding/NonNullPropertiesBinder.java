@@ -1,4 +1,4 @@
-package isel.mpd.typesystem;
+package isel.mpd.binding;
 
 public class NonNullPropertiesBinder extends NonNullBinder {
 		 
