@@ -12,7 +12,12 @@ import isel.mpd.binding.formatters.IFormatter;
  */
 public class FormattersBinder implements IBinderStrategy {
 
-	FormattersBinder(IBinderStrategy binder, IFormatter ... formatters) {
+	private IBinderStrategy binder;
+	private IFormatter[] formatters;
+
+	public FormattersBinder(IBinderStrategy binder, IFormatter ... formatters) {
+		this.binder = binder;
+		this.formatters = formatters;
 		
 	}
 	
@@ -23,8 +28,11 @@ public class FormattersBinder implements IBinderStrategy {
 	
 	@Override
 	public <T> boolean bindMember(T newT, String key, Object value) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		for (IFormatter formatter : formatters) {
+			value = formatter.format(value);
+		}
+		return binder.bindMember(newT, key, value);
 	}
 
 }

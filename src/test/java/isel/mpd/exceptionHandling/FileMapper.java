@@ -1,13 +1,8 @@
 package isel.mpd.exceptionHandling;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class FileMapper<T> implements IMapper<T> {
 

@@ -53,7 +53,7 @@ public class TestBinder extends TestCase {
 		Map<String, Object> m = Binder.getFieldsValues(v);
 
 		// Assert
-		assertEquals(3, m.size());
+		assertEquals(4, m.size());
 		assertEquals("name", m.get("name"));
 		assertEquals("brand", m.get("brand"));
 		assertEquals(2000, m.get("year"));

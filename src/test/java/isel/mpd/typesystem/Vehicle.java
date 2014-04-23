@@ -1,9 +1,7 @@
 package isel.mpd.typesystem;
 
-import isel.mpd.misc.Utils;
 
 public class Vehicle {
-	@Formater(ToUpperCaseFormmater.class)
 	private String name = "default";
 	private String brand = "default";
 	private static String Foo = "Foo";

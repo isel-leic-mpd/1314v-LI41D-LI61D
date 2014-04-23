@@ -1,10 +1,17 @@
 package isel.mpd.typesystem;
 
+import isel.mpd.binding.formatters.Formatter;
+import isel.mpd.binding.formatters.ToUpperCaseFormatter;
+import isel.mpd.binding.formatters.TrimFormatter;
+
 import java.util.Calendar;
 
 
 
 public class Car extends Vehicle {
+	
+	@Formatter(formatter = ToUpperCaseFormatter.class)
+	private String model = "default model";
 	private int year;
 	
 	
@@ -13,8 +20,14 @@ public class Car extends Vehicle {
 	}
 	
 	public Car(String name, String brand, int year) {
+		this(name, brand, null, year);
+		this.setYear(year);
+	}
+	
+	public Car(String name, String brand, String model, int year) {
 		super(name, brand);
 		this.setYear(year);
+		this.model = model == null ? this.model : model;
 	}
 	
 	public void startEngine() { }
@@ -35,6 +48,15 @@ public class Car extends Vehicle {
 	
 	public void setAge(int age) {
 		year = Calendar.getInstance().get(Calendar.YEAR) - age;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	@Formatter(formatter = TrimFormatter.class)
+	public void setModel(String model) {
+		this.model = model;
 	}
 }
 
