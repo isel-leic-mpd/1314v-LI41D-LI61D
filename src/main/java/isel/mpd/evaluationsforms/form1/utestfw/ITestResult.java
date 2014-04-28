@@ -34,5 +34,5 @@ public interface ITestResult {
 	 * @param testCase
 	 * @param e
 	 */
-	public void addError(TestCase testCase, RuntimeException e);
+	public void addError(TestCase testCase, Throwable e);
 }

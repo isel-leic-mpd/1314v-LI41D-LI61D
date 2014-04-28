@@ -5,14 +5,16 @@ import isel.mpd.binding.formatters.ToUpperCaseFormatter;
 import isel.mpd.binding.formatters.TrimFormatter;
 
 import java.util.Calendar;
+import java.util.Date;
 
 
 
 public class Car extends Vehicle {
 	
-	@Formatter(formatter = ToUpperCaseFormatter.class)
+	@Formatter(formatterClass = ToUpperCaseFormatter.class)
 	private String model = "default model";
 	private int year;
+	private String purchaseDate;
 	
 	
 	public Car() {
@@ -53,10 +55,31 @@ public class Car extends Vehicle {
 	public String getModel() {
 		return model;
 	}
-
-	@Formatter(formatter = TrimFormatter.class)
+	
+	@Formatter(formatterClass = TrimFormatter.class)
 	public void setModel(String model) {
 		this.model = model;
+	}
+
+	/**
+	 * @return the purchaseDate
+	 */
+	public String getPurchaseDate() {
+		return purchaseDate;
+	}
+
+	/**
+	 * @param purchaseDate the purchaseDate to set
+	 */
+	
+	@Formatter(formatterMethod = "formatDate")
+	public void setPurchaseDate(String purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
+	
+	@Formatter(formatterMethod = "formatDate")
+	public String formatDate(String date) {
+		return date.replace("/", "-");
 	}
 }
 

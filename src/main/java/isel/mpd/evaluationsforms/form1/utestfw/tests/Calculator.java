@@ -15,8 +15,7 @@ public class Calculator {
 	 * @return
 	 */
 	public static int add(int i, int j) {
-		// TODO Auto-generated method stub
-		return 0;
+		return i+j;
 	}
 
 	/**
@@ -25,8 +24,16 @@ public class Calculator {
 	 * @return
 	 */
 	public static int sub(int i, int j) {
-		// TODO Auto-generated method stub
-		return 0;
+		return i-j;
+	}
+
+	/**
+	 * @param i
+	 * @param j
+	 */
+	public static float div(int i, int j) {
+		return i/j;
+		
 	}
 
 }
