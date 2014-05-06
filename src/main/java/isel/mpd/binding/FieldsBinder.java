@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FieldsBinder implements IBinderStrategy {
+public class FieldsBinder extends MemberBinder {
 
 	private <T> Field getField(T instance, String key, Object value) {
 		Class<?> valueClass = value == null ? null : value.getClass();
@@ -24,7 +24,7 @@ public class FieldsBinder implements IBinderStrategy {
 
 	}
 
-	public static Field[] getAllFields(Class<?> c) {
+	static Field[] getAllFields(Class<?> c) {
 		ArrayList<Field> allFields = new ArrayList<>();
 
 		while (c != Object.class) {
@@ -38,7 +38,7 @@ public class FieldsBinder implements IBinderStrategy {
 	}
 
 	@Override
-	public <T> boolean bindMember(T newT, String key, Object value) {
+	protected <T> boolean bindMemberInternal(T newT, String key, Object value) {
 		Field field = getField(newT, key, value);
 		Class<?> valueClass = value == null ? null : value.getClass();
 		if (field != null) {

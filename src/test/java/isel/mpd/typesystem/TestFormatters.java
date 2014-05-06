@@ -44,7 +44,10 @@ public class TestFormatters {
 		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
 
 		// Act
-		Car c = new Binder(new FormattersBinder(new CompositeBinder(new FieldsBinder(), new PropertiesBinder()), new ToUpperCaseFormatter(), new TrimFormatter()))
+		Car c = new Binder(new FormattersBinder(
+				new CompositeBinder(new FieldsBinder(), 
+				new PropertiesBinder()), new ToUpperCaseFormatter(), 
+				new TrimFormatter()))
 					.bindTo(Car.class, fieldsVals);
 
 		
@@ -85,5 +88,4 @@ public class TestFormatters {
 		assertEquals(v.getBrand(), c.getBrand());
 		assertEquals(v.getModel().trim().trim(), c.getModel());
 	}
-
 }

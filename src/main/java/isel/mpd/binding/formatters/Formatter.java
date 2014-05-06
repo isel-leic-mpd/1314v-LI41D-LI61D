@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
 public @interface Formatter {
-	Class<?> formatterClass() default Void.class;
+	Class<? extends IFormatter> formatterClass() default IFormatter.class;
 	String formatterMethod() default "";
 }

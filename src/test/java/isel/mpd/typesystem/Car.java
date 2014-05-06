@@ -77,8 +77,8 @@ public class Car extends Vehicle {
 		this.purchaseDate = purchaseDate;
 	}
 	
-	@Formatter(formatterMethod = "formatDate")
-	public String formatDate(String date) {
+	
+	private String formatDate(String date) {
 		return date.replace("/", "-");
 	}
 }

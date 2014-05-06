@@ -1,13 +1,20 @@
 package isel.mpd.typesystem;
 
+import static org.junit.Assert.assertEquals;
 import isel.mpd.binding.Binder;
+import isel.mpd.binding.CompositeBinder;
 import isel.mpd.binding.FieldsBinder;
+import isel.mpd.binding.FormattersBinder;
 import isel.mpd.binding.NonNullFieldsBinder;
 import isel.mpd.binding.PropertiesBinder;
 import isel.mpd.binding.ToUppercaseBinder;
+import isel.mpd.binding.formatters.ToUpperCaseFormatter;
+import isel.mpd.binding.formatters.TrimFormatter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+
+import org.junit.Test;
 
 import junit.framework.TestCase;
 
@@ -220,5 +227,26 @@ public class TestBinder extends TestCase {
 		// Assert
 		assertEquals(v.getName().toUpperCase(), c.getName());
 		assertEquals(v.getBrand().toUpperCase(), c.getBrand());
+	}
+	
+	@Test
+	public void testUsingSameBinderForDifferentInstances() throws ClassNotFoundException, IllegalAccessException, NoSuchMethodException, SecurityException, InstantiationException, IllegalArgumentException, InvocationTargetException {
+		// Arrange
+		Car v = new Car("  name  ", "  brand	", 2000);
+		Map<String, Object> fieldsVals = Binder.getFieldsValues(v);
+		Binder b = new Binder(new FormattersBinder(
+				new CompositeBinder(new FieldsBinder(), 
+				new PropertiesBinder()), new ToUpperCaseFormatter(), 
+				new TrimFormatter()));
+
+		// Act
+		Car c = b.bindTo(Car.class, fieldsVals);
+		Moto m = b.bindTo(Moto.class, fieldsVals);
+		
+
+		
+		// Assert
+		assertEquals(v.getName().toUpperCase().trim(), c.getName());
+		assertEquals(v.getBrand().toUpperCase().trim(), c.getBrand());
 	}
 }
