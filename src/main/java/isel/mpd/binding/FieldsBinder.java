@@ -2,6 +2,7 @@ package isel.mpd.binding;
 
 import static isel.mpd.typesystem.Primitives.wrap;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +55,14 @@ public class FieldsBinder extends MemberBinder {
 		}
 		return false;
 
+	}
+
+	/* (non-Javadoc)
+	 * @see isel.mpd.binding.MemberBinder#getMember(java.lang.Class, java.lang.String)
+	 */
+	@Override
+	protected <T> AccessibleObject getMember(Class<T> targetClass, String key) {
+		return null;
 	}
 
 }
