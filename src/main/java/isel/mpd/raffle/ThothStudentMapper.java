@@ -4,12 +4,13 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-public class DealerStudentMapper {
+public class ThothStudentMapper implements StudentMapper {
 
     String[] tokens;
     String previous;
     
-    public boolean hasStudentInfo(String line) {
+    @Override
+	public boolean hasStudentInfo(String line) {
         previous = line;
         
         if (line.indexOf("<td>") < 0) {
@@ -39,7 +40,8 @@ public class DealerStudentMapper {
 
     }
     
-    public Student mapToStudent(String line){
+    @Override
+	public Student mapToStudent(String line){
         if(previous != line)
             throw new IllegalArgumentException("This mapper should be used in a stream with the hasStudentInfo as the previous filter funcion");
         

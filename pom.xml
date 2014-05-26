@@ -1,10 +1,9 @@
 <project>
-	  <modelVersion>4.0.0</modelVersion>
-	  <groupId>pt.isel.mpd.s1314v.li41d-li61d</groupId>
-	  <artifactId>dayprobe</artifactId>
-	  <version>1</version>
-	  
-	  <dependencies>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pt.isel.mpd.s1314v.li41d-li61d</groupId>
+	<artifactId>dayprobe</artifactId>
+	<version>1</version>
+	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -24,29 +23,23 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		  <groupId>org.apache.commons</groupId>
-		  <artifactId>commons-lang3</artifactId>
-		  <version>3.3</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3</version>
 		</dependency>
-	  </dependencies>
-	  
-	  
-	  <build>
-	  
+	</dependencies>
+	<build>
 		<plugins>
-			 <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
 					<source>1.7</source>
-          			<target>1.7</target>
-				  <!--sources>
-                    <source>src/main/generated</source>
-                </sources-->
+					<target>1.7</target>
+					<!--sources><source>src/main/generated</source></sources-->
 				</configuration>
-			  </plugin>
+			</plugin>
 		</plugins>
-	  </build>
-	  
+	</build>
 </project>

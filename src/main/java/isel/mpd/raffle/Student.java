@@ -18,15 +18,16 @@
 package isel.mpd.raffle;
 
 import static java.lang.Integer.parseInt;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Student {
-    final int nr;
+    private final int nr;
     private final String name;
-    final int grade;
-    final List<Date> deliverables = new LinkedList<>();
+    private final int grade;
+    private final List<Date> deliverables = new LinkedList<>();
     
     public Student(int nr, String name, int grade) {
         this.nr = nr;
@@ -34,7 +35,51 @@ public class Student {
         this.grade = grade;
     }
     
-    public Student(String line){
+    /* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((deliverables == null) ? 0 : deliverables.hashCode());
+		result = prime * result + grade;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + nr;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Student other = (Student) obj;
+		if (deliverables == null) {
+			if (other.deliverables != null)
+				return false;
+		} else if (!deliverables.equals(other.deliverables))
+			return false;
+		if (grade != other.grade)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (nr != other.nr)
+			return false;
+		return true;
+	}
+
+	public Student(String line){
         String [] tokens = line.split("\\|");
         if(tokens.length < 3) throw new IllegalArgumentException("Invalid line parameter");
         this.nr = parseInt(tokens[1]);
@@ -44,7 +89,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" + "nr=" + nr + ", name=" + getName() + ", grade=" + grade + '}';
+        return "Student{" + "nr=" + nr + ", name=" + getName() + ", grade=" + getGrade() + '}';
     }
 
     void print() {
@@ -56,6 +101,20 @@ public class Student {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * @return the grade
+	 */
+	public int getGrade() {
+		return grade;
+	}
+
+	/**
+	 * @return the nr
+	 */
+	public int getNumber() {
+		return nr;
 	}
        
 }
