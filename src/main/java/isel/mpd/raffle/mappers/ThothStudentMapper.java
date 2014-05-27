@@ -1,18 +1,14 @@
-package isel.mpd.raffle;
+package isel.mpd.raffle.mappers;
 
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-public class ThothStudentMapper implements StudentMapper {
+public class ThothStudentMapper extends StudentMapper {
+    private String[] tokens;
 
-    String[] tokens;
-    String previous;
-    
-    @Override
-	public boolean hasStudentInfo(String line) {
-        previous = line;
-        
+	@Override
+	protected boolean matchesStudent(String line) {
         if (line.indexOf("<td>") < 0) {
             return false;
         }
@@ -41,17 +37,8 @@ public class ThothStudentMapper implements StudentMapper {
     }
     
     @Override
-	public Student mapToStudent(String line){
-        if(previous != line)
-            throw new IllegalArgumentException("This mapper should be used in a stream with the hasStudentInfo as the previous filter funcion");
-        
-        int grade = tokens.length >= 4 ? Integer.parseInt(tokens[3]) : 10;
-        
-        tokens[2] = StringEscapeUtils.unescapeHtml4(tokens[2]);
-                
-        return new Student(
-                Integer.parseInt(tokens[0]), 
-                tokens[2], 
-                grade);
+	public String[] getTokens(String line){
+           tokens[2] = StringEscapeUtils.unescapeHtml4(tokens[2]);
+           return new String[] { tokens[0], tokens[2], tokens.length >= 4 ? tokens[3] : "10" };
     }
 }

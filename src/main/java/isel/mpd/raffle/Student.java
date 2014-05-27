@@ -23,15 +23,14 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Student {
+public class Student extends Person {
     private final int nr;
-    private final String name;
     private final int grade;
     private final List<Date> deliverables = new LinkedList<>();
     
     public Student(int nr, String name, int grade) {
+    	super(name);
         this.nr = nr;
-        this.name = name;
         this.grade = grade;
     }
     
@@ -80,6 +79,7 @@ public class Student {
 	}
 
 	public Student(String line){
+		super(null);
         String [] tokens = line.split("\\|");
         if(tokens.length < 3) throw new IllegalArgumentException("Invalid line parameter");
         this.nr = parseInt(tokens[1]);
@@ -95,13 +95,6 @@ public class Student {
     void print() {
         System.out.println(this);
     }
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
 
 	/**
 	 * @return the grade

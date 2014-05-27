@@ -1,11 +1,5 @@
 package isel.mpd.raffle;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -26,8 +20,9 @@ public class Dealer {
     
 
       
-    public Student randStudent() {
-       List<Student> elegibleStudents = stds.stream().filter(s -> s.getGrade() >= 5 && s.getGrade() < 20).collect(Collectors.toList());
+    public Person randStudent() {
+       List<Student> elegibleStudents = 
+    		   stds.stream().filter(s -> s.getGrade() >= 5 && s.getGrade() < 20).collect(Collectors.toList());
        int idx = (new Random()).nextInt(elegibleStudents.size());
        return elegibleStudents.get(idx);
     }
