@@ -12,12 +12,9 @@ import isel.mpd.raffle.Dealer;
 import isel.mpd.raffle.FileSupplier;
 import isel.mpd.raffle.Person;
 import isel.mpd.raffle.Student;
-import isel.mpd.raffle.UrlSupplier;
 import isel.mpd.raffle.mappers.CSVStudentMapper;
 
-
 import java.io.IOException;
-import java.net.URL;
 
 public class IterQueriesApp {
 
@@ -26,8 +23,8 @@ public class IterQueriesApp {
     public static void main(String[] args) throws IOException {
         Dealer d = new Dealer(new FileSupplier("c:\\tmp\\students.csv", new CSVStudentMapper()));
 
-        String name = IterUtils.query(d.getStudents()) // TPC Alinea 3
-        //String name = ListUtils.query(d.getStudents()) // TPC Alinea 2
+        //String name = IterUtils.query(d.getStudents()) // TPC Alinea 3
+        String name = ListUtils.query(d.getStudents()) // TPC Alinea 2
         //String name = d.getStudents().stream() // TPC Alinea 1
                 .filter(s -> {
                     trace("filter1");
