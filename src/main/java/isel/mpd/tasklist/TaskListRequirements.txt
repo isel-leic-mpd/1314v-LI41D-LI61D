@@ -1,0 +1,35 @@
+Task list requirements
+
+Description
+Create an application to manage a task list.
+
+* Task
+	* Title
+ 	* Description +
+ 	* Start date +
+ 	* Due date +
+ 	* State (TO_DO, IN_PROGRESS, DONE, DELETED)
+ 	* Created by some user
+ 	* Assigned to a user
+ 	* May have associated comments 
+
+LEGEND:
++ Means an optional value
+
+
+* Required Operations
+	* Task operations
+		* Create task
+		* Delete task
+		* Update task
+		* List tasks (with filtering)
+		* Assign a task to a user
+		* Change task state
+		* Add a comment
+	
+	* User Operations
+		* Create user
+		* Delete user
+		* Update user
+		* List users (with filtering)
+	
