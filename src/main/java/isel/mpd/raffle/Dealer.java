@@ -1,5 +1,6 @@
 package isel.mpd.raffle;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
