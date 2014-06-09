@@ -8,9 +8,8 @@ package isel.mpd.tasklist.domain.entities;
  *
  */
 public class Task {
-
-	private String description;
 	private int taskId;
+	private String description;
 	private String title;
 	private User creator;
 
@@ -21,10 +20,15 @@ public class Task {
 	 * @param creator2
 	 */
 	public Task(String title, String description, User creator) {
+		this(-1, title, description, creator);
+	}
+	
+	
+	public Task(int id, String title, String description, User creator) {
+		this.taskId = id;
 		this.title = title;
 		this.description = description;
 		this.creator = creator;
-
 	}
 
 	/**
@@ -40,7 +44,7 @@ public class Task {
 	public int getId() {
 		return taskId;
 	}
-
+	
 	/**
 	 * @return
 	 */
