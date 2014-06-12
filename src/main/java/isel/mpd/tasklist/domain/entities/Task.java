@@ -7,8 +7,11 @@ package isel.mpd.tasklist.domain.entities;
  * @author lfalcao
  *
  */
+//@TableName("Tarefas")
 public class Task {
+	//@Key(name="id")
 	private int taskId;
+	//@CoumumnName("descr")
 	private String description;
 	private String title;
 	private User creator;

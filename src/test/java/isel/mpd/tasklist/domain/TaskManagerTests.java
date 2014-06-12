@@ -27,7 +27,7 @@ public class TaskManagerTests {
 	@BeforeClass
 	public static void beforeClass() {
 		tm = new TaskManager(new FakeRepository());
-		defaultUser = new User("Some user", "default");
+		defaultUser = new User("username", "Full Name", "email");
 	}
 
 	

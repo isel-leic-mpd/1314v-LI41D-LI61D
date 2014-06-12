@@ -3,7 +3,7 @@
  */
 package isel.mpd.tasklist.dataaccess.mappers;
 
-import isel.mpd.tasklist.domain.entities.Task;
+import isel.mpd.tasklist.domain.entities.{EntityName};
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,21 +13,21 @@ import java.sql.SQLException;
  * @author lfalcao
  *
  */
-public class TaskMapper extends BaseMapper<Task> {
-	static final String SELECT_STRING = "select id, title, description from tasks";
-	private static final String WHERE_STRING = "where id = ?";
-	static final String UPDATE_STRING = "update Tasks set title = ?, description = ? "
+public class {EntityName}Mapper extends BaseMapper<{EntityName}> {
+	static final String SELECT_STRING = "select {COLUMN_NAMES} from {TABLE_NAME}";
+	private static final String WHERE_STRING = "where {KEY_NAME} = ?";
+	static final String UPDATE_STRING = "update {TABLE_NAME} set {SET_COLUMNS}"
 			+ WHERE_STRING;
 
-	public TaskMapper(DatabaseManager dbManager) {
+	public {EntityName}Mapper(DatabaseManager dbManager) {
 		super(dbManager);
 	}
 
-	int insert(Task task) {
+	int insert({EntityName} e) {
 		return 0;
 	}
 
-	boolean delete(Task task) {
+	boolean delete({EntityName} e) {
 		return false;
 	}
 
@@ -38,11 +38,11 @@ public class TaskMapper extends BaseMapper<Task> {
 	 * isel.mpd.tasklist.dataaccess.mappers.BaseMapper#bind(java.sql.ResultSet)
 	 */
 	@Override
-	protected Task bind(ResultSet res) throws SQLException {
-		int id = res.getInt(1);
-		String title = res.getString(2);
-		String description = res.getString(3);
-		return new Task(id, title, description, null);
+	protected {EntityName} bind(ResultSet res) throws SQLException {
+		
+		// ###################
+		{BIND_CODE}
+		// ###################
 	}
 
 	/*
@@ -62,8 +62,7 @@ public class TaskMapper extends BaseMapper<Task> {
 	 */
 	@Override
 	protected String whereString() {
-		// TODO Auto-generated method stub
-		return null;
+		return WHERE_STRING;
 	}
 
 	/* (non-Javadoc)
@@ -78,10 +77,10 @@ public class TaskMapper extends BaseMapper<Task> {
 	 * @see isel.mpd.tasklist.dataaccess.mappers.BaseMapper#updateStatement(java.sql.PreparedStatement, java.lang.Object)
 	 */
 	@Override
-	protected void updateStatement(PreparedStatement stmt, Task entity) throws SQLException {
-		stmt.setString(1, entity.getTitle());
-		stmt.setString(2, entity.getDescription());
-		stmt.setInt(3, entity.getId());
+	protected void updateStatement(PreparedStatement stmt, {EntityName} entity) throws SQLException {
+		// ###################
+		{UPDATE_STATEMENT}
+		// ###################
 	}
 
 	/* (non-Javadoc)

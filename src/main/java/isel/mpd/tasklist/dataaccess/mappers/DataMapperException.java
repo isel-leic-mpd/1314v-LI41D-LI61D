@@ -17,5 +17,12 @@ public class DataMapperException extends Exception {
 	public DataMapperException(Throwable e) {
 		super(e);
 	}
+
+	/**
+	 * @param string
+	 */
+	public DataMapperException(String message) {
+		super(message);
+	}
 	
 }

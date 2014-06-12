@@ -26,7 +26,6 @@ public abstract class BaseMapper<T> {
 	
 	public final T findById(int id) throws DataMapperException {
 		PreparedStatement stmt = null;
-		
 		try {
 			stmt = dbManager.getPreparedStatement(selectString() + whereString());
 			stmt.setInt(1, id);
@@ -40,6 +39,42 @@ public abstract class BaseMapper<T> {
 			throw new DataMapperException(e);
 		}
 	}
+	
+	void update(T entity) throws DataMapperException {
+		int rowsAffected;
+		try {
+			PreparedStatement stmt = dbManager.getPreparedStatement(updateString());
+			updateStatement(stmt, entity);
+			
+			rowsAffected = stmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataMapperException(e);
+		}
+		if (rowsAffected != 1) {
+			throw new DataMapperException("Could not update entity with id "  
+					+ getId(entity) );
+		}
+	
+	}
+
+
+	/**
+	 * @param entity
+	 * @return
+	 */
+	protected abstract Object getId(T entity);
+
+	/**
+	 * @param stmt
+	 * @param entity
+	 * @throws SQLException 
+	 */
+	protected abstract void updateStatement(PreparedStatement stmt, T entity) throws SQLException;
+
+	/**
+	 * @return
+	 */
+	protected abstract String updateString();
 
 	/**
 	 * @return
@@ -74,5 +109,6 @@ public abstract class BaseMapper<T> {
 	 * @return
 	 */
 	protected abstract String selectString();
+
 
 }
