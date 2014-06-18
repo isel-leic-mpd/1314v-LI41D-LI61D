@@ -3,6 +3,10 @@
  */
 package isel.mpd.tasklist.domain.entities;
 
+import isel.mpd.tasklist.dataaccess.IUserRepository;
+
+import org.omg.CORBA.RepositoryIdHelper;
+
 /**
  * @author lfalcao
  *
@@ -14,7 +18,7 @@ public class Task {
 	//@CoumumnName("descr")
 	private String description;
 	private String title;
-	private User creator;
+	protected User creator;
 
 
 	/**
@@ -54,5 +58,17 @@ public class Task {
 	public String getTitle() {
 		return title;
 	}
+
+
+	/**
+	 * @return
+	 */
+	public User getCreator() {
+		return creator;
+	}
+
+
+	
+	
 
 }

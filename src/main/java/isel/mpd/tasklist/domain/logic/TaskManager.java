@@ -28,8 +28,7 @@ public class TaskManager {
 	 * @param defaultUser
 	 * @return
 	 */
-	public Task createTask(String title, String description,
-			User creator) {
+	public Task createTask(String title, String description, User creator) {
 		if(title == null || "".equals(title)) {
 			throw new IllegalArgumentException("Task title may not be null");
 		}
@@ -60,6 +59,23 @@ public class TaskManager {
 	 */
 	public Task getTask(int id) {
 		return tasksRepository.getTask(id);
+	}
+	
+	
+	public Task updateTask(Task t) {
+		// Validações
+		Task oldTask = tasksRepository.get(t.getId());
+		
+		if(oldTask == null) {
+			throw new IllegalArgumentException("Tasks does not exist"); 
+		}
+		
+		if(!oldTask.getCreator().equals(t.getCreator())) {
+			throw new IllegalArgumentException("Task creator changed"); 
+		}
+		
+		
+		
 	}
 
 

@@ -23,8 +23,8 @@ public class TaskMapper extends BaseMapper<Task> {
 		super(dbManager);
 	}
 
-	int insert(Task task) {
-		return 0;
+	public Task insert(Task task) {
+		return null;
 	}
 
 	boolean delete(Task task) {

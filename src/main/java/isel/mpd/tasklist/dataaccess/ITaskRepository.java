@@ -3,23 +3,15 @@
  */
 package isel.mpd.tasklist.dataaccess;
 
+import java.util.Collection;
+
 import isel.mpd.tasklist.domain.entities.Task;
 
 /**
  * @author lfalcao
  *
  */
-public interface ITaskRepository {
+public interface ITaskRepository extends IRepository<Task> {
 
-	/**
-	 * @param t
-	 */
-	void AddTask(Task t);
-
-	/**
-	 * @param id
-	 * @return
-	 */
-	Task getTask(int id);
 
 }
